@@ -1,0 +1,44 @@
+--
+--
+-- steps to create the db objects manually.
+--
+--
+-- psql -U postgres
+-- CREATE DATABASE kaspodb;
+-- \c kaspodb;
+CREATE SCHEMA entrln;
+-- CREATE USER kaspoadmin WITH PASSWORD 'kaspo';
+GRANT ALL PRIVILEGES ON DATABASE kaspodb TO kaspoadmin;
+GRANT ALL PRIVILEGES ON SCHEMA entrln TO kaspoadmin;
+
+-- create the test table
+CREATE TABLE entrln.analytics_activity (
+    userid VARCHAR(255),
+    clientid VARCHAR(255),
+    activity_type VARCHAR(255),
+    bucket VARCHAR(255)
+);
+
+GRANT ALL PRIVILEGES ON TABLE entrln.analytics_activity TO kaspoadmin;
+
+-- sample data if needed.
+-- \q
+-- psql -U kaspoadmin kaspodb
+INSERT INTO entrln.analytics_activity (userid, clientid, activity_type, bucket) VALUES
+    ('dummy_user_1', 'client1', 'page_view', 'bucketA'),
+    ('dummy_user_2', 'client2', 'click', 'bucketB'),
+    ('dummy_user_3', 'client3', 'purchase', 'bucketC'),
+    ('dummy_user_4', 'client4', 'page_view', 'bucketA'),
+    ('dummy_user_5', 'client5', 'click', 'bucketB');
+
+-- ensure table is set up correctly.
+SELECT * FROM entrln.analytics_activity;
+DELETE * FROM entrln.analytics_activity;
+SELECT * FROM entrln.analytics_activity;
+
+
+-- psql -U kaspoadmin kaspodb
+-- psql -U postgres
+-- \dt
+-- \c kaspodb;
+-- \q
